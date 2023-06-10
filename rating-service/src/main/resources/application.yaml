@@ -1,0 +1,19 @@
+server:
+  port: 8200
+spring:
+  application:
+    name: rating-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/rating
+    username: root
+    password: root
+    driverClassName: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
