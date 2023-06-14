@@ -4,14 +4,14 @@ spring:
   application:
     name: book-service
   datasource:
-    url: jdbc:mysql://localhost:3306/book
+    url: jdbc:mysql://localhost:3306/book?sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
     username: root
     password: root
     driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
 eureka:
   client:
