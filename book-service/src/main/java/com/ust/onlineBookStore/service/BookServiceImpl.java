@@ -14,7 +14,7 @@ public class BookServiceImpl implements BookService{
     private BookRepository bookRepository;
 
     @Override
-    public Optional<Book> findByIsbn(long isbn) {
+    public Optional<Book> findByIsbn(String isbn) {
         return bookRepository.findByIsbn(isbn);
     }
 

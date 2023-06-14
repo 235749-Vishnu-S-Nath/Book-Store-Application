@@ -17,12 +17,25 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long bookId;
-    private long isbn;
+
+    private String isbn;
     private String title;
+    private String seriesName;
     private String author;
+    private Integer lexile;
+    private Integer pageCount;
+    private Integer minAge;
+    private Integer maxAge;
+    private String[] categories;
+
+    @Column(length = 3000)
     private String summary;
+    private String coverArtUrl;
+    private String authorFirstName;
+    private String authorLastName;
+    private Integer copyright;
+    private Integer publishedWorkId;
+    private String binding;
     private String language;
-    private int pageCount;
-    private int publishYear;
-    private String imageUrl;
+
 }

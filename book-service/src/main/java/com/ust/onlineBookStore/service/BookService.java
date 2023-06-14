@@ -6,6 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BookService {
-    Optional<Book> findByIsbn(long isbn);
+    Optional<Book> findByIsbn(String isbn);
     List<Book> findAll();
 }
