@@ -16,4 +16,15 @@ public class AdminBookServiceImpl implements AdminBookService {
     public Book save(Book book) {
         return bookRepository.save(book);
     }
+
+    @Override
+    public void delete(long id) {
+
+        bookRepository.deleteById(id);
+    }
+
+    @Override
+    public void update(Book book) {
+        bookRepository.save(book);
+    }
 }
