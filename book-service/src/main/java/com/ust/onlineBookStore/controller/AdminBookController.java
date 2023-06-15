@@ -93,9 +93,6 @@ public class AdminBookController {
 
 
 
-
-
-
     public BookDto EntityToDto(Book book){
         return new BookDto(
                 book.getIsbn(),

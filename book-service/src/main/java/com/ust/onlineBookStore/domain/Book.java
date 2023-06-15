@@ -26,6 +26,9 @@ public class Book {
     private Integer pageCount;
     private Integer minAge;
     private Integer maxAge;
+
+    @ElementCollection
+    @OrderColumn(name = "category_order")
     private String[] categories;
 
     @Column(length = 3000)
@@ -34,7 +37,7 @@ public class Book {
     private String authorFirstName;
     private String authorLastName;
     private Integer copyright;
-    private Integer publishedWorkId;
+    private String publishedWorkId;
     private String binding;
     private String language;
 
