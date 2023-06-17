@@ -34,16 +34,16 @@ public class UserBookController {
 
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<BookDto>> getAllBook(){
-//        final var books = bookService.findAll();
-//        if(books.isEmpty()){
-//            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-//        }
-//        final var bookDtoList = books.stream().map(this::EntityToDto).toList();
-//        return ResponseEntity.status(HttpStatus.OK).body(bookDtoList);
-//    }
-//
+    @PostMapping("/isbns")
+    public ResponseEntity<List<BookDto>> getAllByIsbn(@RequestBody List<String> isbns){
+        List<Book> books = bookService.findByAllIsbn(isbns);
+        if(books.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        List<BookDto> bookDtoList = books.stream().map(this::EntityToDto).toList();
+        return ResponseEntity.status(HttpStatus.OK).body(bookDtoList);
+    }
+
     @GetMapping("/filter")
     public ResponseEntity<List<BookDto>> getAllBookFilter(
             @RequestBody String[] categories )
@@ -66,7 +66,6 @@ public class UserBookController {
         List<BookDto> bookDtoList = books.stream().map(this::EntityToDto).toList();
         return ResponseEntity.status(HttpStatus.OK).body(bookDtoList);
     }
-
 
     @GetMapping("/title")
     public ResponseEntity<List<BookDto>> getAllBookByTitle(@RequestParam(value = "title", required = false) String title)
@@ -150,5 +149,4 @@ public class UserBookController {
                 postRequestDto.language()
         );
     }
-
 }
