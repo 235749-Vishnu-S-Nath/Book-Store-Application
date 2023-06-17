@@ -20,4 +20,7 @@ public interface BookRepository extends JpaRepository<Book,Long> {
     List<Book> findByTitle(String title);
 
     List<Book> findByAuthor(String author);
+
+    @Query("SELECT b FROM Book b WHERE b.isbn IN :isbns")
+    List<Book> findAllByIsbn(List<String> isbns);
 }
