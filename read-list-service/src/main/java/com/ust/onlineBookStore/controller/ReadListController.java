@@ -1,9 +1,9 @@
 package com.ust.onlineBookStore.controller;
 
-
 import com.ust.onlineBookStore.domain.ReadList;
 import com.ust.onlineBookStore.dto.BookDto;
 import com.ust.onlineBookStore.dto.ReadListDto;
+import com.ust.onlineBookStore.service.ApiClient;
 import com.ust.onlineBookStore.service.ReadListService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/readlist")
@@ -55,19 +54,12 @@ public class ReadListController {
     @DeleteMapping("/removefav")
     public ResponseEntity<ReadListDto> removeFavourites(@RequestParam String isbn, @RequestParam long id){
         final var result = readListService.findByIsbnAndUserId(isbn,id);
-//        log.warn(String.valueOf(result.get()));
         if(result.isPresent()) {
             readListService.deleteFavourites(result.get().getReadListId());
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }
-
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
-
-
-
-
 
     public ReadList PostToEntity(ReadListDto readListDto) {
         return new ReadList(
@@ -77,8 +69,5 @@ public class ReadListController {
                 LocalDateTime.now(ZoneId.of("Asia/Kolkata"))
         );
     }
-
-
-
 
 }

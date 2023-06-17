@@ -1,7 +1,6 @@
 package com.ust.onlineBookStore.service;
 
 import com.ust.onlineBookStore.domain.ReadList;
-import com.ust.onlineBookStore.dto.ReadListDto;
 import com.ust.onlineBookStore.repository.ReadListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

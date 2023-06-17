@@ -28,10 +28,4 @@ public class ReadList {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Kolkata")
     private LocalDateTime lastUpdate;
 
-
-//    public ReadList(long readListId, long userId, String isbn) {
-//        this.readListId = readListId;
-//        this.userId = userId;
-//        this.isbn = isbn;
-//    }
 }

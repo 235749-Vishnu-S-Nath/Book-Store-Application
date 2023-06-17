@@ -11,9 +11,6 @@ import java.util.Optional;
 public interface BookRepository extends JpaRepository<Book,Long> {
     Optional<Book> findByIsbn(String isbn);
 
-//    @Query("SELECT b FROM Book b WHERE :category IN (b.categories)")
-//    List<Book> findByCategoriesIn(String[] categories);
-
     @Query("SELECT b FROM Book b JOIN b.categories c WHERE c IN :categories")
     List<Book> findByCategoriesIn(@Param("categories") String[] categories);
 

@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -91,8 +90,6 @@ public class AdminBookController {
 
     }
 
-
-
     public BookDto EntityToDto(Book book){
         return new BookDto(
                 book.getIsbn(),
@@ -133,10 +130,4 @@ public class AdminBookController {
                 postRequestDto.language()
         );
     }
-
 }
-
-//    public Book DtoToEntity(BookDto bookDto){
-//        return new Book(bookDto.bookId(), bookDto.isbn(), bookDto.title(), bookDto.author(), bookDto.summary(),
-//                bookDto.language(), bookDto.pageCount(), bookDto.publishYear(), bookDto.imageUrl());
-//    }
