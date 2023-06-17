@@ -37,7 +37,7 @@ public class Book {
     private String authorFirstName;
     private String authorLastName;
     private Integer copyright;
-    private String publishedWorkId;
+    private Integer publishedWorkId;
     private String binding;
     private String language;
 
