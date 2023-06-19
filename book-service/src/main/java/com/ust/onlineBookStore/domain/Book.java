@@ -40,5 +40,6 @@ public class Book {
     private String publishedWorkId;
     private String binding;
     private String language;
+    private double rating;
 
 }

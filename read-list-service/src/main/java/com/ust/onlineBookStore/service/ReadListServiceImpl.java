@@ -24,18 +24,23 @@ public class ReadListServiceImpl implements ReadListService {
     }
 
     @Override
-    public Optional<ReadList> findByIsbnAndUserId(String isbn, long userId) {
-        return readListRepository.findByIsbnAndUserId(isbn,userId);
+    public Optional<ReadList> findByIsbnAndUsername(String isbn, String username) {
+        return readListRepository.findByIsbnAndUsername(isbn,username);
     }
 
     @Override
-    public Optional<ReadList> findByUserId(long id) {
-        return readListRepository.findByUserId(id);
+    public Optional<ReadList> findByUsername(String username) {
+        return readListRepository.findByUsername(username);
     }
 
     @Override
     public void deleteFavourites(long id) {
         readListRepository.deleteById(id);
     }
+
+//    @Override
+//    public Optional<ReadList> findByUsernameAndIsbn(String username, String isbn) {
+//        return readListRepository.findByIsbnAndUsername(isbn,username);
+//    }
 
 }

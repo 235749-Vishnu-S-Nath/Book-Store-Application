@@ -3,6 +3,7 @@ package com.ust.onlineBookStore.controller;
 import com.ust.onlineBookStore.domain.Book;
 import com.ust.onlineBookStore.dto.BookDto;
 import com.ust.onlineBookStore.dto.PostRequestDto;
+import com.ust.onlineBookStore.dto.ToListDto;
 import com.ust.onlineBookStore.dto.UpdateDto;
 import com.ust.onlineBookStore.service.AdminBookService;
 import com.ust.onlineBookStore.service.BookService;
@@ -34,13 +35,13 @@ public class AdminBookController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BookDto>> getAllBook(){
+    public ResponseEntity<ToListDto> getAllBook(){
         final var books = bookService.findAll();
         if(books.isEmpty()){
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
         final var bookDtoList = books.stream().map(this::EntityToDto).toList();
-        return ResponseEntity.status(HttpStatus.OK).body(bookDtoList);
+        return ResponseEntity.status(HttpStatus.OK).body(new ToListDto(bookDtoList));
     }
 
     @PostMapping("/add")
@@ -60,27 +61,27 @@ public class AdminBookController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         adminBookService.delete(book.get().getBookId());
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{isbn}")
     public ResponseEntity<BookDto> updateBook(@PathVariable("isbn") String isbn, @RequestBody UpdateDto updateDto) {
         var book = bookService.findByIsbn(isbn);
         if(book.isPresent()){
-            if(!updateDto.title().isEmpty()){
-                book.get().setTitle(updateDto.title());
-            }
-            if(!updateDto.seriesName().isEmpty()){
+            if(!updateDto.seriesName().trim().isEmpty()){
                 book.get().setSeriesName(updateDto.seriesName());
             }
-            if (!updateDto.author().isEmpty()){
+            if (!updateDto.author().trim().isEmpty()){
                 book.get().setAuthor(updateDto.author());
             }
-            if(!updateDto.summary().isEmpty()){
+            if(!updateDto.summary().trim().isEmpty()){
                 book.get().setSummary(updateDto.summary());
             }
-            if(updateDto.copyright()!=0){
-                book.get().setCopyright(updateDto.copyright());
+            if(updateDto.minAge()!=0){
+                book.get().setMinAge(updateDto.minAge());
+            }
+            if(updateDto.maxAge()!=0){
+                book.get().setMaxAge(updateDto.maxAge());
             }
             adminBookService.update(book.get());
             return ResponseEntity.ok(EntityToDto(book.get()));
@@ -104,7 +105,8 @@ public class AdminBookController {
                 book.getSummary(),
                 book.getCoverArtUrl(),
                 book.getCopyright(),
-                book.getLanguage()
+                book.getLanguage(),
+                book.getRating()
         );
     }
 
@@ -127,7 +129,8 @@ public class AdminBookController {
                 postRequestDto.copyright(),
                 postRequestDto.publishedWorkId(),
                 postRequestDto.binding(),
-                postRequestDto.language()
+                postRequestDto.language(),
+                postRequestDto.rating()
         );
     }
 }

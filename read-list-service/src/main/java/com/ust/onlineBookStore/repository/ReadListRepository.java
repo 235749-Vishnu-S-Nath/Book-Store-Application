@@ -10,7 +10,8 @@ import java.util.Optional;
 public interface ReadListRepository extends JpaRepository <ReadList,Long> {
     Optional<ReadList> findByIsbn(String isbn);
 
-    Optional<ReadList> findByIsbnAndUserId(String isbn, long userId);
 
-    Optional<ReadList> findByUserId(long id);
+    Optional<ReadList> findByUsername(String username);
+
+    Optional<ReadList> findByIsbnAndUsername(String isbn, String username);
 }
