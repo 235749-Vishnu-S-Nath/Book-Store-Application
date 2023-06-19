@@ -19,13 +19,12 @@ public class UserBookServiceImpl implements UserBookService{
 
     @Override
     public List<Book> findByTitle(String title) {
-        return bookRepository.findByTitle(title);
+        return bookRepository.findByTitleContainingWord(title);
     }
 
     @Override
     public List<Book> findByAuthor(String author) {
-        return bookRepository.findByAuthor(author);
+        return bookRepository.findByAuthorContainingWord(author);
     }
-
 
 }
