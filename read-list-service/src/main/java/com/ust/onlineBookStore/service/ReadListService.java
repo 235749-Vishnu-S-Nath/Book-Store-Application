@@ -11,9 +11,11 @@ public interface ReadListService {
 
     ReadList addFavourites(ReadList readList);
 
-    Optional<ReadList> findByIsbnAndUserId(String isbn, long userId);
+    Optional<ReadList> findByIsbnAndUsername(String isbn, String username);
 
-    Optional<ReadList> findByUserId(long id);
+    Optional<ReadList> findByUsername(String username);
 
     void deleteFavourites(long id);
+
+//    Optional<ReadList> findByUsernameAndIsbn(String , String );
 }

@@ -3,6 +3,7 @@ package com.ust.onlineBookStore.controller;
 import com.ust.onlineBookStore.domain.Book;
 import com.ust.onlineBookStore.dto.BookDto;
 import com.ust.onlineBookStore.dto.PostRequestDto;
+import com.ust.onlineBookStore.dto.ToListDto;
 import com.ust.onlineBookStore.service.BookService;
 import com.ust.onlineBookStore.service.UserBookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -24,28 +24,27 @@ public class UserBookController {
     @Autowired
     private UserBookService userBookService;
 
-    @GetMapping("/isbn/{isbn}")
+    @GetMapping("/{isbn}")
     public ResponseEntity<BookDto> getByIsbn(@PathVariable String isbn){
         final var book = bookService.findByIsbn(isbn);
         if(book.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.status(HttpStatus.OK).body(EntityToDto(book.get()));
-
     }
 
     @PostMapping("/isbns")
-    public ResponseEntity<List<BookDto>> getAllByIsbn(@RequestBody List<String> isbns){
+    public ResponseEntity<ToListDto> getAllByIsbn(@RequestBody List<String> isbns){
         List<Book> books = bookService.findByAllIsbn(isbns);
         if(books.isEmpty()){
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
         List<BookDto> bookDtoList = books.stream().map(this::EntityToDto).toList();
-        return ResponseEntity.status(HttpStatus.OK).body(bookDtoList);
+        return ResponseEntity.status(HttpStatus.OK).body(new ToListDto(bookDtoList));
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<List<BookDto>> getAllBookFilter(
+    public ResponseEntity<ToListDto> getAllBookFilter(
             @RequestBody String[] categories )
     {
 
@@ -64,11 +63,11 @@ public class UserBookController {
         }
 
         List<BookDto> bookDtoList = books.stream().map(this::EntityToDto).toList();
-        return ResponseEntity.status(HttpStatus.OK).body(bookDtoList);
+        return ResponseEntity.status(HttpStatus.OK).body(new ToListDto(bookDtoList));
     }
 
     @GetMapping("/title")
-    public ResponseEntity<List<BookDto>> getAllBookByTitle(@RequestParam(value = "title", required = false) String title)
+    public ResponseEntity<ToListDto> getAllBookByTitle(@RequestParam(value = "title", required = false) String title)
     {
         List<Book> books;
 
@@ -85,11 +84,11 @@ public class UserBookController {
         }
 
         List<BookDto> bookDtoList = books.stream().map(this::EntityToDto).toList();
-        return ResponseEntity.status(HttpStatus.OK).body(bookDtoList);
+        return ResponseEntity.status(HttpStatus.OK).body(new ToListDto(bookDtoList));
     }
 
     @GetMapping("/author")
-    public ResponseEntity<List<BookDto>> getAllBookByAuthor(@RequestParam(value = "author", required = false) String author)
+    public ResponseEntity<ToListDto> getAllBookByAuthor(@RequestParam(value = "author", required = false) String author)
     {
         List<Book> books;
 
@@ -106,7 +105,7 @@ public class UserBookController {
         }
 
         List<BookDto> bookDtoList = books.stream().map(this::EntityToDto).toList();
-        return ResponseEntity.status(HttpStatus.OK).body(bookDtoList);
+        return ResponseEntity.status(HttpStatus.OK).body(new ToListDto(bookDtoList));
     }
 
     public BookDto EntityToDto(Book book){
@@ -123,7 +122,8 @@ public class UserBookController {
                 book.getSummary(),
                 book.getCoverArtUrl(),
                 book.getCopyright(),
-                book.getLanguage()
+                book.getLanguage(),
+                book.getRating()
         );
     }
 
@@ -146,7 +146,8 @@ public class UserBookController {
                 postRequestDto.copyright(),
                 postRequestDto.publishedWorkId(),
                 postRequestDto.binding(),
-                postRequestDto.language()
+                postRequestDto.language(),
+                postRequestDto.rating()
         );
     }
 }

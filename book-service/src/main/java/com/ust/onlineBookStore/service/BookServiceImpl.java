@@ -27,6 +27,4 @@ public class BookServiceImpl implements BookService{
     public List<Book> findByAllIsbn(List<String> isbns) {
         return bookRepository.findAllByIsbn(isbns);
     }
-
-
 }
