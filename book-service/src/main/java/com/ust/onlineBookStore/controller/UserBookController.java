@@ -4,8 +4,12 @@ import com.ust.onlineBookStore.domain.Book;
 import com.ust.onlineBookStore.dto.BookDto;
 import com.ust.onlineBookStore.dto.PostRequestDto;
 import com.ust.onlineBookStore.dto.ToListDto;
+import com.ust.onlineBookStore.exception.BookNotFoundException;
+import com.ust.onlineBookStore.exception.NoBooksFoundException;
 import com.ust.onlineBookStore.service.BookService;
 import com.ust.onlineBookStore.service.UserBookService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,26 +22,37 @@ import java.util.List;
 @CrossOrigin("*")
 public class UserBookController {
 
+    private Logger logger = LoggerFactory.getLogger(AdminBookController.class);
+
     @Autowired
     private BookService bookService;
 
     @Autowired
     private UserBookService userBookService;
 
+
     @GetMapping("/{isbn}")
-    public ResponseEntity<BookDto> getByIsbn(@PathVariable String isbn){
-        final var book = bookService.findByIsbn(isbn);
-        if(book.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    public ResponseEntity<BookDto> getByIsbn(@PathVariable("isbn") String isbn) {
+        logger.info("getBook: Fetching book with isbn {}", isbn);
+        var book = bookService.findByIsbn(isbn);
+        if (book.isEmpty()) {
+            logger.error("getBook: Fetching book with isbn {} not found", isbn);
+            throw new BookNotFoundException(
+                    String.format("Book with isbn %s not found", isbn)
+            );
         }
         return ResponseEntity.status(HttpStatus.OK).body(EntityToDto(book.get()));
     }
 
     @PostMapping("/isbns")
     public ResponseEntity<ToListDto> getAllByIsbn(@RequestBody List<String> isbns){
+        logger.info("getAllByIsbn: Fetching all book with isbns {}", isbns.toString());
         List<Book> books = bookService.findByAllIsbn(isbns);
         if(books.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            logger.error("getAllByIsbn: Fetching book with isbns {} not found", isbns.toString());
+            throw new NoBooksFoundException(
+                    String.format("Book with isbn %s not found", isbns.toString())
+            );
         }
         List<BookDto> bookDtoList = books.stream().map(this::EntityToDto).toList();
         return ResponseEntity.status(HttpStatus.OK).body(new ToListDto(bookDtoList));
@@ -47,7 +62,7 @@ public class UserBookController {
     public ResponseEntity<ToListDto> getAllBookFilter(
             @RequestBody String[] categories )
     {
-
+        logger.info("getAllBookFilter: Fetching all book with categories {}", categories);
         List<Book> books;
 
         if (categories != null && categories.length!=0) {
@@ -59,7 +74,10 @@ public class UserBookController {
         }
 
         if (books.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            logger.error("getAllBookFilter: No books found for the filter {} ", categories);
+            throw new NoBooksFoundException(
+                    String.format("No Books found with isbns %s", categories)
+            );
         }
 
         List<BookDto> bookDtoList = books.stream().map(this::EntityToDto).toList();
@@ -69,6 +87,7 @@ public class UserBookController {
     @GetMapping("/title")
     public ResponseEntity<ToListDto> getAllBookByTitle(@RequestParam(value = "title", required = false) String title)
     {
+        logger.info("getAllBookFilter: Fetching all book with title {}", title);
         List<Book> books;
 
         if (!title.isEmpty()  ) {
@@ -80,7 +99,10 @@ public class UserBookController {
         }
 
         if (books.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            logger.error("getAllByTitle: Fetching book with title {} not found", title);
+            throw new NoBooksFoundException(
+                    String.format("Book with title %s not found", title)
+            );
         }
 
         List<BookDto> bookDtoList = books.stream().map(this::EntityToDto).toList();
@@ -90,6 +112,7 @@ public class UserBookController {
     @GetMapping("/author")
     public ResponseEntity<ToListDto> getAllBookByAuthor(@RequestParam(value = "author", required = false) String author)
     {
+        logger.info("getAllBookFilter: Fetching all book with author {}", author);
         List<Book> books;
 
         if (!author.isEmpty()  ) {
@@ -101,7 +124,10 @@ public class UserBookController {
         }
 
         if (books.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            logger.error("getAllByIsbn: Fetching book with author {} not found", author);
+            throw new NoBooksFoundException(
+                    String.format("Book with author %s not found", author)
+            );
         }
 
         List<BookDto> bookDtoList = books.stream().map(this::EntityToDto).toList();
