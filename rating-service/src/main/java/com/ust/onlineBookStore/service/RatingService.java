@@ -13,4 +13,6 @@ public interface RatingService {
     Rating updateTheRatings(Rating rating);
 
     List<Rating> findByIsbn(String isbn);
+
+    double getAverageRating(String isbn);
 }

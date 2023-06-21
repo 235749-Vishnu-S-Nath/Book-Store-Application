@@ -24,7 +24,7 @@ public class Rating {
 
     private String isbn;
 
-    private int rating;
+    private double rating;
 
     private String review;
 }

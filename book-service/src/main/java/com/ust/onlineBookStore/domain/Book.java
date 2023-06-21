@@ -18,7 +18,9 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long bookId;
 
+    @Column(unique = true)
     private String isbn;
+
     private String title;
     private String seriesName;
     private String author;
