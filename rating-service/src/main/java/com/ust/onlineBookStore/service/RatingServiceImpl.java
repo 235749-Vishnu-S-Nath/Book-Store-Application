@@ -33,4 +33,10 @@ public class RatingServiceImpl implements RatingService{
     public List<Rating> findByIsbn(String isbn) {
         return ratingRepository.findAllByIsbn(isbn);
     }
+
+    @Override
+    public double getAverageRating(String isbn) {
+        return ratingRepository.findAverageRatingByIsbn(isbn);
+    }
+
 }

@@ -4,6 +4,6 @@ public record RatingPostDto(
         long ratingId,
         String username,
         String isbn,
-        int rating,
+        double rating,
         String review) {
 }

@@ -35,7 +35,6 @@ public class AdminBookController {
     @Autowired
     private BookService bookService;
 
-
     @GetMapping("isbn/{isbn}")
     public ResponseEntity<BookDto> getByIsbn(@PathVariable("isbn") String isbn) {
         logger.info("getBook: Fetching book with isbn {}", isbn);
@@ -62,7 +61,6 @@ public class AdminBookController {
         final var bookDtoList = books.stream().map(this::EntityToDto).toList();
         return ResponseEntity.status(HttpStatus.OK).body(new ToListDto(bookDtoList));
     }
-
 
     @PostMapping("/add")
     public ResponseEntity<BookDto> addBook(@Valid @RequestBody PostRequestDto postRequestDto) {
@@ -94,8 +92,6 @@ public class AdminBookController {
         return ResponseEntity.ok().build();
     }
 
-
-
     @PutMapping("/{isbn}")
     public ResponseEntity<BookDto> updateBook(@PathVariable("isbn") String isbn, @RequestBody UpdateDto updateDto) {
         logger.info("updateBook: Updating book with isbn {}", isbn);
@@ -123,7 +119,23 @@ public class AdminBookController {
         throw new BookNotFoundException(
                 String.format("Book with isbn %s not found", isbn)
         );
+    }
 
+    @PostMapping("/rating")
+    public ResponseEntity<BookDto> updateRating(@RequestParam String isbn,@RequestParam double rating){
+        logger.info("updateBook: Update book rating with isbn {}", isbn);
+        var book = bookService.findByIsbn(isbn);
+        if(book.isPresent()) {
+            if (rating!=0.0) {
+                book.get().setRating(rating);
+            }
+            adminBookService.update(book.get());
+            return ResponseEntity.ok(EntityToDto(book.get()));
+        }
+        logger.error("updateMovie: Movie with isbn {} not found", isbn);
+        throw new BookNotFoundException(
+                String.format("Book with isbn %s not found", isbn)
+        );
     }
 
     public BookDto EntityToDto(Book book){
