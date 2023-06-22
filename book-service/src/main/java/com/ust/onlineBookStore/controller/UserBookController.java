@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/users/books")
+@RequestMapping("/api/v1/books/user")
 @CrossOrigin("*")
 public class UserBookController {
 
@@ -58,7 +58,7 @@ public class UserBookController {
         return ResponseEntity.status(HttpStatus.OK).body(new ToListDto(bookDtoList));
     }
 
-    @GetMapping("/filter")
+    @PostMapping("/filter")
     public ResponseEntity<ToListDto> getAllBookFilter(
             @RequestBody String[] categories )
     {

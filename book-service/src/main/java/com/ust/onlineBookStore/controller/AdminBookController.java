@@ -24,7 +24,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/admin/books")
+@RequestMapping("/api/v1/books/admin")
 @CrossOrigin("*")
 public class AdminBookController {
     @Autowired
@@ -35,7 +35,7 @@ public class AdminBookController {
     @Autowired
     private BookService bookService;
 
-    @GetMapping("isbn/{isbn}")
+    @GetMapping("/isbn/{isbn}")
     public ResponseEntity<BookDto> getByIsbn(@PathVariable("isbn") String isbn) {
         logger.info("getBook: Fetching book with isbn {}", isbn);
         var book = bookService.findByIsbn(isbn);

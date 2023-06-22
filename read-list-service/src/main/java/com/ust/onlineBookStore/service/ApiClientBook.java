@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(value = "book-service",url = "http://localhost:8100/api/v1/users/books")
+@FeignClient(value = "book-service",url = "http://localhost:8100/api/v1/books/user")
 public interface ApiClientBook {
     @PostMapping("/isbns")
     public ResponseEntity<ToListDto> getAllByIsbn(@RequestBody List<String> isbns);
