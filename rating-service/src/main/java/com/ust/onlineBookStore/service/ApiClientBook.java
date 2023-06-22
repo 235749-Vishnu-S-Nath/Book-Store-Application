@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(value = "book-service",url = "http://localhost:8100/api/v1/admin/books")
+@FeignClient(value = "book-service",url = "http://localhost:8100/api/v1/books/admin")
 public interface ApiClientBook {
     @PostMapping("/rating")
     public ResponseEntity<BookDto> updateRating(@RequestParam String isbn,@RequestParam double rating);
