@@ -5,6 +5,7 @@ import com.ust.onlineBookStore.repository.ReadListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -29,7 +30,7 @@ public class ReadListServiceImpl implements ReadListService {
     }
 
     @Override
-    public Optional<ReadList> findByUsername(String username) {
+    public List<ReadList> findByUsername(String username) {
         return readListRepository.findByUsername(username);
     }
 

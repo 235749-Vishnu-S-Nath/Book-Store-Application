@@ -27,7 +27,6 @@ import java.util.List;
 @CrossOrigin("*")
 @Slf4j
 public class ReadListController {
-
     private Logger logger = LoggerFactory.getLogger(ReadListController.class);
 
     @Autowired
@@ -57,7 +56,7 @@ public class ReadListController {
     public ResponseEntity<ToListDto>  getFavourates(@RequestParam String username){
         logger.info("getFavourates: fetching favourite books using username{}", username);
         final var result = readListService.findByUsername(username);
-        if(result.isPresent()){
+        if(!result.isEmpty()){
             List<String> isbns = result.stream()
                     .map(ReadList::getIsbn)
                     .toList();

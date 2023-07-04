@@ -40,16 +40,17 @@ public class RatingController {
                     String.format("Book with isbn %s is already rated", ratingPostDto.isbn())
             );
         }
+        final var response = ratingService.rateTheBook(rating);
         double avrgRting = ratingService.getAverageRating(ratingPostDto.isbn());
         logger.warn("averge rating : "+String.valueOf(avrgRting));
 
         if(avrgRting >=0){
-            apiClientBook.updateRating(ratingPostDto.isbn(),(avrgRting+ratingPostDto.rating())/2);
+            apiClientBook.updateRating(ratingPostDto.isbn(),avrgRting);
         }
         else {
             apiClientBook.updateRating(ratingPostDto.isbn(), ratingPostDto.rating());
         }
-        return ResponseEntity.status(HttpStatus.OK).body(entityToPost(ratingService.rateTheBook(rating)));
+        return ResponseEntity.status(HttpStatus.OK).body(entityToPost(response));
     }
 
     @GetMapping

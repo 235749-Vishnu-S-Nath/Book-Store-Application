@@ -4,6 +4,7 @@ import com.ust.onlineBookStore.domain.ReadList;
 import com.ust.onlineBookStore.dto.ReadListDto;
 
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ReadListService {
@@ -13,7 +14,7 @@ public interface ReadListService {
 
     Optional<ReadList> findByIsbnAndUsername(String isbn, String username);
 
-    Optional<ReadList> findByUsername(String username);
+    List<ReadList> findByUsername(String username);
 
     void deleteFavourites(long id);
 
